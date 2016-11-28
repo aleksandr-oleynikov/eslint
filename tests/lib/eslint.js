@@ -1917,13 +1917,15 @@ describe("eslint", () => {
 
     describe("when evaluating code with comments to disable and enable configurable rule as part of plugin", () => {
 
-        eslint.defineRule("test-plugin/test-rule", context => ({
-            Literal(node) {
-                if (node.value === "trigger violation") {
-                    context.report(node, "Reporting violation.");
+        before(() => {
+            eslint.defineRule("test-plugin/test-rule", context => ({
+                Literal(node) {
+                    if (node.value === "trigger violation") {
+                        context.report(node, "Reporting violation.");
+                    }
                 }
-            }
-        }));
+            }));
+        });
 
         it("should not report a violation when inline comment enables plugin rule and there's no violation", () => {
             const config = { rules: {} };
